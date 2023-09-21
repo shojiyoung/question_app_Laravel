@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Todo;
+use App\Models\Comment;
 
 class TestController extends Controller
 {
     public function index()
        {
-        $todos = Todo::all();
-        return view('index', compact('todos'));
+        $todos = Todo::with('comments')->get();
+        $comments = Comment::all();
+        return view('index', compact('todos', 'comments'));
        }
 
        public function store(Request $request)

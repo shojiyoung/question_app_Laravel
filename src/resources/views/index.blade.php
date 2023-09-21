@@ -117,6 +117,20 @@
             </div>
         </form>
     </div>
+    @foreach($todo->comments as $comment)
+        <div class="comment">
+            <p>ユーザー: {{ $comment->user->name }}</p>
+            <p>{{ $comment->content }}</p>
+        </div>
+    @endforeach
+
+    <form class="comment-form" action="/todos/{{ $todo->id }}/comments" method="POST">
+        @csrf
+        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+        <input type="text" name="content" placeholder="コメントを入力">
+        <button type="submit">コメントする</button>
+    </form>
+    
     @endforeach <!-- ループ終了 -->
 </body>
 </html>
