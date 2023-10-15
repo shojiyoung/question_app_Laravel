@@ -30,5 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/todos', [TestController::class, 'store']);
     Route::patch('/todos/update', [TestController::class, 'update']);
     Route::delete('/todos/delete', [TestController::class, 'destroy']);
+    Route::post('/todos/{todo}/comments', [TestController::class, 'comment_store']);
+    
 });
 

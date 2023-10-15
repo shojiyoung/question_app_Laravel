@@ -26,11 +26,11 @@
     }
 
     .update-form__button-submit{
-        margin:-50px 0 70px 200px;
+        margin:0 0 70px 200px;
     }
 
     .delete-form__button-submit{
-        margin:195px 0 0px 40px;
+        margin:227px 0 0px 40px;
     }
 
     .alert.alert-success {
@@ -60,6 +60,32 @@
         width:210%;
         height:200px;
     }
+
+    .comment{
+        width:40%;
+        height:150px;
+        
+    }
+
+    .comment-content{
+
+    }
+
+    .comment-user{
+        color: blue;
+    }
+
+    
+
+    .comment-field{
+        display: flex;
+        margin-left:200px;
+    }
+
+    .main-board{
+        display:flex;
+    }
+    
 </style>
 </head>
 <body>
@@ -90,6 +116,7 @@
 
     @foreach($todos as $todo) <!-- 修正：$todos をループ -->
     <div class="todo-row">
+        <div class="main-board">
         <form class="update-form" action="/todos/update" method="POST">
             @method('PATCH')
             @csrf
@@ -118,17 +145,18 @@
         </form>
     </div>
     @foreach($todo->comments as $comment)
-        <div class="comment">
-            <p>ユーザー: {{ $comment->user->name }}</p>
-            <p>{{ $comment->content }}</p>
+        <div class="comment-field">
+            <p class="comment-content">{{ $comment->content }}</p><p class="comment-user">投稿主: {{ $comment->user->name }}</p>
+            
         </div>
     @endforeach
+</div>
 
     <form class="comment-form" action="/todos/{{ $todo->id }}/comments" method="POST">
         @csrf
         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-        <input type="text" name="content" placeholder="コメントを入力">
-        <button type="submit">コメントする</button>
+        <textarea class="comment" type="text" name="content" placeholder="回答を入力する"></textarea>
+        <button type="submit">回答を投稿する</button>
     </form>
     
     @endforeach <!-- ループ終了 -->

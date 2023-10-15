@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Todo;
 use App\Models\Comment;
+use Illuminate\Support\Facades\Auth;
+
 
 class TestController extends Controller
 {
@@ -29,17 +31,34 @@ class TestController extends Controller
     $todo = $request->only(['title', 'content']); 
     Todo::find($request->id)->update($todo);
 
-    return redirect('/')->with('message', 'Todoを更新しました');
+    return redirect('/index')->with('message', 'Todoを更新しました');
 }
 
 public function destroy(Request $request)
 {
     Todo::find($request->id)->delete();
-    return redirect('/')->with('message', 'Todoを削除しました');
+    return redirect('/index')->with('message', 'Todoを削除しました');
 }
 
 public function login()
        {
         return view('login');
        }
+
+       public function comment_store(Request $request, Todo $todo)
+{
+    $validatedData = $request->validate([
+        'content' => 'required|string|max:255', // 必要に応じてバリデーションルールを変更
+    ]);
+
+    $comment = new Comment();
+    $comment->user_id = Auth::user()->id;
+    $comment->todo_id = $todo->id;
+    $comment->content = $request->input('content');
+    $comment->save();
+
+    return redirect()->back()->with('success', 'コメントが投稿されました'); // 成功した場合のリダイレクト
+}
+
+
 }
