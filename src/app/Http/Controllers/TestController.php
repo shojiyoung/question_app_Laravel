@@ -36,7 +36,11 @@ class TestController extends Controller
 
 public function destroy(Request $request)
 {
+    Comment::where('todo_id', $request->id)->delete();
+    
+    // Todo レコードを削除
     Todo::find($request->id)->delete();
+    
     return redirect('/index')->with('message', 'Todoを削除しました');
 }
 

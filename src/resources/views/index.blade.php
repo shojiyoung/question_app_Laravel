@@ -30,7 +30,7 @@
     }
 
     .delete-form__button-submit{
-        margin:227px 0 0px 40px;
+        margin:295px 0 0px 40px;
     }
 
     .alert.alert-success {
